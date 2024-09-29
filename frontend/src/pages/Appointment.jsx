@@ -28,11 +28,11 @@ const Appointment = () => {
         for(let i = 0; i < 7; i++) {
             // getting date with index
             let currentDate = new Date(today)
-            currentDate.setDate(today.getDate() + i)
+            currentDate.setDate(today.getDate()+i)
 
             // setting end time of the date with index
             let endTime = new Date();
-            endTime.setDate(today.getDate() + 1)
+            endTime.setDate(today.getDate()+i)
             endTime.setHours(21, 0, 0, 0)
 
             // setting hours
@@ -115,7 +115,7 @@ const Appointment = () => {
                 <div className='flex gap-3 items-center w-full overflow-x-scroll mt-4'>
                     {
                         docSlots.length && docSlots.map((item, index) => (
-                            <div className={`text-center py-6 min-w-16 rounded-full cursor-pointer ${slotIndex === index ? 'bg-primary text-white' : 'border border-gray-300'}`} key={index}>
+                            <div onClick={() => setSlotIndex(index)} className={`text-center py-6 min-w-16 rounded-full cursor-pointer ${slotIndex === index ? 'bg-primary text-white' : 'border border-gray-300'}`} key={index}>
                                 <p>{item[0] && daysOfWeek[item[0].datetime.getDay()]}</p>
                                 <p>{item[0] && item[0].datetime.getDate()}</p>
                             </div>
