@@ -1,7 +1,8 @@
 import validator from "validator";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import { v2 as cloudinary } from "cloudinary";
-import doctorModel from "../models/doctorModel";
+import doctorModel from "../models/doctorModel.js";
+import jwt from "jsonwebtoken";
 
 // API for adding doctor
 
@@ -27,7 +28,7 @@ const addDoctor = async(req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt)
 
-        const imageUpload = await cloudinary.uploader.upload( imageUpload.path, {resource_type: "image"})
+        const imageUpload = await cloudinary.uploader.upload( imageFile.path, {resource_type: "image"})
         const imageUrl = imageUpload.secure_url
 
         const doctorData = {
@@ -51,8 +52,33 @@ const addDoctor = async(req, res) => {
         res.json({ success: true, message: "Doctor Added"})
 
     } catch (error) {
-        
+        console.log(error);
+        res.json({ success: false, message: error.message })
     }
 }
 
-export { addDoctor }
+// API For ADMIN LOGIN
+const loginAdmin = async(req, res) => {
+
+    try {
+        const { email, password } = req.body;
+
+        if(email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
+
+            const token = jwt.sign(email+password, process.env.JWT_SECRET)
+
+            res.json({ success: true, token })
+        } else {
+            res.json({ success: false, message: "Invalid credentials"})    
+        }
+
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: error.message })
+    }
+}
+
+export { 
+    addDoctor,
+    loginAdmin,
+}
