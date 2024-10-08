@@ -43,6 +43,10 @@ const AddDoctor = () => {
             formData.forEach((value, key) => {
                 console.log(`${key} : ${value}`)
             })
+
+            const { data } = await axios.post(backendUrl + '/api/admin/add-doctor', formData, {
+                headers: {aToken}
+            })
         } catch (error) {
             
         }
