@@ -1,7 +1,7 @@
 import express from 'express'
-import { doctorList } from '../controllers/doctorController'
+import { doctorList } from '../controllers/doctorController.js'
 
-const doctorRouter = express.Route()
+const doctorRouter = express.Router()
 
 doctorRouter.get('/list', doctorList)
 

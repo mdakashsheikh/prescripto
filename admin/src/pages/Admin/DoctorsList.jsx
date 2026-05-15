@@ -6,10 +6,10 @@ const DoctorsList = () => {
     const { doctors, aToken, getAllDocotrs, changeAvailability } = useContext(AdminContext);
 
     useEffect(() => {
-        if(aToken) {
+        if(!aToken) {
             getAllDocotrs()
         }
-    }, [aToken])
+    }, [])
 
     return (
         <div className='m-5 max-h-[90vh] overflow-y-scroll '>
